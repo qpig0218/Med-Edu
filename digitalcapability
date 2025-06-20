@@ -1,0 +1,365 @@
+import React, { useState } from 'react';
+
+// 主應用程式組件
+export default function App() {
+  // 定義所有委員的數據結構，新增 'remark' 欄位
+  const data = {
+    "現任委員名單": [
+      {
+        department: "品管中心",
+        members: [
+          { name: "杜漢祥", title: "主任", remark: "" }
+        ]
+      },
+      {
+        department: "精神醫學部",
+        members: [
+          { name: "林健禾", title: "部長", remark: "" } // 名稱更新：林建禾 -> 林健禾
+        ]
+      },
+      {
+        department: "藥劑部",
+        members: [
+          { name: "蘇慧真", title: "部長", remark: "" }
+        ]
+      },
+      {
+        department: "資訊室",
+        members: [
+          { name: "陳佳蓉", title: "組長", remark: "" }
+        ]
+      }
+    ],
+    "推薦委員名單": [
+      {
+        department: "內科部",
+        specialties: [
+          {
+            name: "腎臟科",
+            members: [
+              { name: "楊翼寧", title: "醫師", remark: "為AI數位小組成員、PGY長期導師" },
+              { name: "黃琪雅", title: "醫師", remark: "為AI數位小組成員、UGY、PGY A+醫師系統教學" }
+            ]
+          },
+          {
+            name: "胸腔內科",
+            members: [
+              { name: "張庭嘉", title: "醫師", remark: "OSCE考官、使用數位工具撰寫中山後醫PBL教案" } // 備註更新
+            ]
+          }
+        ]
+      },
+      {
+        department: "外科部",
+        specialties: [
+          {
+            name: "泌尿外科",
+            members: [
+              { name: "謝昆霖", title: "醫師", remark: "OSCE小組組長 臨床技能課程教學" }
+            ]
+          },
+          {
+            name: "一般外科",
+            members: [
+              { name: "高佑銘", title: "醫師", remark: "臨床技能課程教學" }
+            ]
+          }
+        ]
+      },
+      {
+        department: "骨科部",
+        members: [
+          { name: "林昇輝", title: "醫師", remark: "個人設計系統彙整看診資料" }
+        ]
+      },
+      {
+        department: "婦產部",
+        members: [
+          { name: "温仁育", title: "醫師", remark: "病歷審查委員 UGY病歷指導老師 未來PGY教學負責人" }
+        ]
+      },
+      {
+        department: "兒科部",
+        members: [
+          { name: "郭思辰", title: "醫師", remark: "病歷審查委員 UGY病歷指導老師" }
+        ]
+      },
+      {
+        department: "急診醫學部",
+        members: [
+          { name: "蔡長志", title: "醫師", remark: "OSCE組長、UGY醫病溝通講師、 PGY長期導師、擬真情境競賽" },
+          { name: "李季恆", title: "醫師", remark: "UGY急診教學負責人 PGY長期導師 臨床技能課程教學" }
+        ]
+      },
+      {
+        department: "醫事職類",
+        specialties: [
+          {
+            name: "A組",
+            members: [
+              { name: "黃建中", title: "", remark: "善用PowerBI、數位平台、放射診斷醫事教學負責人" }
+            ]
+          },
+          {
+            name: "B組",
+            members: [
+              { name: "邱旅揚", title: "", remark: "專任教學型醫事人員" }
+            ]
+          },
+          {
+            name: "C組",
+            members: [
+              { name: "張鈴艷", title: "", remark: "專任教學型醫事人員" }
+            ]
+          }
+        ]
+      }
+    ]
+  };
+
+  // 狀態來追蹤哪些部分是展開的
+  const [expandedSections, setExpandedSections] = useState({});
+  // 狀態來追蹤推薦理由的載入狀態
+  const [loadingRationales, setLoadingRationales] = useState({});
+  // 狀態來儲存已生成的推薦理由
+  const [generatedRationales, setGeneratedRationales] = useState({});
+
+  // 切換展開狀態的函數
+  const toggleExpand = (key) => {
+    setExpandedSections(prev => ({
+      ...prev,
+      [key]: !prev[key]
+    }));
+  };
+
+  // 使用 Gemini API 生成推薦理由的異步函數
+  const generateRationale = async (member, memberKey, department, specialty = '') => {
+    // 設定載入狀態，並清除舊的理由
+    setLoadingRationales(prev => ({ ...prev, [memberKey]: true }));
+    setGeneratedRationales(prev => ({ ...prev, [memberKey]: '' }));
+
+    // 構建給 LLM 的提示語
+    const prompt = `請為以下人員生成一個簡短的推薦理由。請直接提供理由內容，不要包含任何開頭語句或介紹性短語。理由應專業且具說服力，並專注於其在數位賦能方面的潛力、貢獻或特殊能力。請確保理由內容不重複列出其科部或科別名稱，但這些資訊會作為生成參考。
+姓名: ${member.name}
+職稱: ${member.title || '（無職稱）'}
+科部: ${department}
+${specialty ? `科別: ${specialty}` : ''}
+${member.remark ? `備註/特點: ${member.remark}` : ''}
+
+請用繁體中文回應，理由應在 60 字以內。`;
+
+    try {
+      let chatHistory = [];
+      chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+      const payload = { contents: chatHistory };
+      const apiKey = ""; // 如果您想使用 gemini-2.0-flash 或 imagen-3.0-generate-002 以外的模型，請在此提供 API 金鑰。否則，請保持原樣。
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      const result = await response.json();
+
+      // 檢查 API 回傳結構並更新狀態
+      if (result.candidates && result.candidates.length > 0 &&
+          result.candidates[0].content && result.candidates[0].content.parts &&
+          result.candidates[0].content.parts.length > 0) {
+        const text = result.candidates[0].content.parts[0].text;
+        setGeneratedRationales(prev => ({ ...prev, [memberKey]: text }));
+      } else {
+        console.error("Gemini API 回傳結構異常或無內容:", result);
+        setGeneratedRationales(prev => ({ ...prev, [memberKey]: '無法生成推薦理由。' }));
+      }
+    } catch (error) {
+      console.error("呼叫 Gemini API 時發生錯誤:", error);
+      setGeneratedRationales(prev => ({ ...prev, [memberKey]: '生成推薦理由時發生錯誤。' }));
+    } finally {
+      // 結束載入狀態
+      setLoadingRationales(prev => ({ ...prev, [memberKey]: false }));
+    }
+  };
+
+  // 渲染成員列表
+  const renderMembers = (members, categoryName, department, specialty = '') => (
+    <ul className="list-disc pl-5 text-gray-700"> {/* 文字顏色調整 */}
+      {members.map((member, idx) => {
+        // 為每個成員創建唯一的鍵，用於管理推薦理由和載入狀態
+        const memberKey = `${categoryName}-${department}-${specialty}-${member.name}-${idx}`;
+        const rationale = generatedRationales[memberKey];
+        const isLoading = loadingRationales[memberKey];
+
+        return (
+          <li key={idx} className="py-0.5 flex flex-col sm:flex-row sm:items-center justify-between">
+            {/* 顯示成員姓名和職稱，以及備註 */}
+            <div className="flex-grow">
+              <span>{member.name} {member.title ? `(${member.title})` : ''}</span>
+              {member.remark && (
+                <span className="ml-2 text-xs text-gray-500 italic">({member.remark})</span> /* 備註文字顏色調整 */
+              )}
+            </div>
+
+            {/* 僅在「推薦委員名單」中顯示生成推薦理由按鈕 */}
+            {categoryName === "推薦委員名單" && (
+              <div className="mt-2 sm:mt-0 sm:ml-4 flex-shrink-0">
+                <button
+                  onClick={() => generateRationale(member, memberKey, department, specialty)}
+                  disabled={isLoading} // 載入時禁用按鈕
+                  className="bg-blue-400 hover:bg-blue-500 text-white text-sm font-semibold py-1 px-3 rounded-full shadow-md transition duration-200 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed" // 按鈕顏色調整
+                >
+                  {isLoading ? '生成中...' : '✨ 生成推薦理由'}
+                </button>
+              </div>
+            )}
+
+            {/* 顯示已生成的推薦理由 */}
+            {rationale && (
+              <p className="mt-2 text-sm text-gray-600 italic border-t border-gray-300 pt-2 px-2 py-1 rounded-md bg-gray-100 w-full"> {/* 理由背景和文字顏色調整 */}
+                推薦理由： {rationale}
+              </p>
+            )}
+          </li>
+        );
+      })}
+    </ul>
+  );
+
+  // 渲染科別列表
+  const renderSpecialties = (specialties, parentKey, categoryName, departmentName) => (
+    <div className="ml-4 border-l border-gray-300 pl-4 py-2"> {/* 邊框顏色調整 */}
+      {specialties.map((specialty, idx) => {
+        const specialtyKey = `${parentKey}-specialty-${specialty.name}-${idx}`;
+        const isSpecialtyExpanded = expandedSections[specialtyKey];
+        return (
+          <div key={specialtyKey} className="mb-2">
+            <button
+              onClick={() => toggleExpand(specialtyKey)}
+              className="flex items-center w-full text-left font-medium text-blue-600 hover:text-blue-700 focus:outline-none" // 文字顏色調整
+            >
+              <span className="mr-2 text-xl">{isSpecialtyExpanded ? '▼' : '▶'}</span>
+              <span>{specialty.name}</span>
+            </button>
+            {isSpecialtyExpanded && (
+              <div className="mt-2 ml-6 bg-blue-50 p-3 rounded-lg shadow-inner"> {/* 背景顏色調整 */}
+                {/* 傳遞 categoryName, departmentName 和 specialty.name 給 renderMembers */}
+                {renderMembers(specialty.members, categoryName, departmentName, specialty.name)}
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+
+  // 渲染科部列表
+  const renderDepartments = (departments, categoryKey, categoryName) => (
+    <div className="mt-4">
+      {departments.map((department, idx) => {
+        const departmentKey = `${categoryKey}-dept-${department.department}-${idx}`;
+        const isDepartmentExpanded = expandedSections[departmentKey];
+        return (
+          <div key={departmentKey} className="mb-4 bg-white p-4 rounded-xl shadow-md border border-gray-200"> {/* 背景和邊框顏色調整 */}
+            <button
+              onClick={() => toggleExpand(departmentKey)}
+              className="flex items-center w-full text-left text-lg font-semibold text-gray-800 hover:text-gray-900 focus:outline-none" // 文字顏色調整
+            >
+              <span className="mr-2 text-xl">{isDepartmentExpanded ? '▼' : '▶'}</span>
+              <span>{department.department}</span>
+            </button>
+            {isDepartmentExpanded && (
+              <div className="mt-3">
+                {department.members && department.members.length > 0 && (
+                  <div className="bg-gray-50 p-3 rounded-lg shadow-inner"> {/* 背景顏色調整 */}
+                    {/* 傳遞 categoryName 和 department.department 給 renderMembers */}
+                    {renderMembers(department.members, categoryName, department.department)}
+                  </div>
+                )}
+                {department.specialties && department.specialties.length > 0 && (
+                  /* 傳遞 categoryName 和 department.department 給 renderSpecialties */
+                  renderSpecialties(department.specialties, departmentKey, categoryName, department.department)
+                )}
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+
+  // 計算每個類別的總人數
+  const getCategoryMemberCount = (categoryData) => {
+    let count = 0;
+    categoryData.forEach(department => {
+      if (department.members) {
+        count += department.members.length;
+      }
+      if (department.specialties) {
+        department.specialties.forEach(specialty => {
+          count += specialty.members.length;
+        });
+      }
+    });
+    return count;
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 p-4 sm:p-6 lg:p-8 flex items-center justify-center font-sans"> {/* 背景顏色調整 */}
+      <script src="https://cdn.tailwindcss.com"></script>
+      <div className="max-w-4xl w-full bg-white rounded-3xl shadow-xl overflow-hidden"> {/* 主容器背景顏色調整 */}
+        <style>
+          {`
+            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+            body {
+              font-family: 'Inter', sans-serif;
+            }
+          `}
+        </style>
+
+        <header className="bg-blue-100 p-6 text-gray-800 text-center rounded-t-3xl shadow-lg"> {/* 標頭背景顏色調整 */}
+          {/* 更新標題 */}
+          <h1 className="text-3xl font-bold mb-1">數位賦能組委員推薦人物名單</h1>
+          <p className="text-gray-600 text-lg">點擊類別以展開或收合詳細資訊</p> {/* 文字顏色調整 */}
+        </header>
+
+        <main className="p-6">
+          {Object.entries(data).map(([categoryName, departments]) => {
+            const categoryKey = `category-${categoryName}`;
+            const isCategoryExpanded = expandedSections[categoryKey];
+            const memberCount = getCategoryMemberCount(departments); // 計算人數
+            return (
+              <section key={categoryKey} className="mb-8 last:mb-0">
+                <button
+                  onClick={() => toggleExpand(categoryKey)}
+                  className="flex items-center w-full bg-blue-50 hover:bg-blue-100 p-4 rounded-xl shadow-sm transition-all duration-300 focus:outline-none text-left" // 按鈕背景和 hover 顏色調整
+                >
+                  <h2 className="text-2xl font-bold text-blue-700 flex-grow"> {/* 文字顏色調整 */}
+                    {categoryName} (人數: {memberCount}) {/* 加入人數顯示 */}
+                  </h2>
+                  <span className="text-blue-500 text-3xl font-bold"> {/* 圖示顏色調整 */}
+                    {isCategoryExpanded ? '−' : '+'}
+                  </span>
+                </button>
+                {isCategoryExpanded && (
+                  <div className="mt-4 bg-gray-50 p-4 rounded-xl shadow-inner border border-gray-100"> {/* 背景和邊框顏色調整 */}
+                    {/* 傳遞 categoryName 給 renderDepartments */}
+                    {renderDepartments(departments, categoryKey, categoryName)}
+                  </div>
+                )}
+                {/* 分隔線，除了最後一個類別 */}
+                {categoryName !== Object.keys(data)[Object.keys(data).length - 1] && (
+                  <hr className="my-8 border-t-2 border-gray-200" /> /* 分隔線顏色調整 */
+                )}
+              </section>
+            );
+          })}
+        </main>
+
+        <footer className="bg-blue-100 p-4 text-gray-800 text-center text-sm rounded-b-3xl"> {/* 頁腳背景顏色調整 */}
+          <p>© 2025 人物推薦系統</p>
+        </footer>
+      </div>
+    </div>
+  );
+}
