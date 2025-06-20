@@ -377,103 +377,6 @@
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
         }
 
-        .committee-recommendations-section {
-            margin-top: 40px;
-            background: linear-gradient(135deg, #f0f4ff 0%, #e0e7ff 100%);
-            border-radius: 15px;
-            padding: 30px;
-            border: 1px solid #6366f1;
-        }
-
-        .committee-recommendations-title {
-            font-size: 1.8em;
-            font-weight: 600;
-            color: #4f46e5;
-            margin-bottom: 30px;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .committee-recommendations-title::before {
-            content: '';
-            width: 4px;
-            height: 30px;
-            background: linear-gradient(135deg, #4f46e5, #7c3aed);
-            border-radius: 2px;
-        }
-
-        .committees-recommendations-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
-        .committee-recommendation-card {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-            border: 1px solid rgba(99, 102, 241, 0.1);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            text-align: center;
-        }
-
-        .committee-recommendation-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #6366f1, #8b5cf6);
-        }
-
-        .committee-recommendation-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(99, 102, 241, 0.15);
-        }
-
-        .committee-recommendation-title {
-            font-size: 1.3em;
-            font-weight: 600;
-            color: #4f46e5;
-            margin-bottom: 15px;
-        }
-
-        .committee-recommendation-description {
-            font-size: 1em;
-            line-height: 1.6;
-            color: #64748b;
-            margin-bottom: 20px;
-            text-align: justify;
-        }
-
-        .detail-button {
-            display: inline-block;
-            padding: 12px 24px;
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-            color: white;
-            text-decoration: none;
-            border-radius: 25px;
-            font-weight: 600;
-            font-size: 1em;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-        }
-
-        .detail-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-            background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
-        }
-
         @media (max-width: 768px) {
             .header h1 {
                 font-size: 2em;
@@ -659,52 +562,10 @@
                 </div>
             </div>
 
-            <!-- 委員會推薦詳情 -->
-            <div class="committee-recommendations-section">
-                <h3 class="committee-recommendations-title">委員會推薦詳情</h3>
-                <div class="committees-recommendations-grid">
-                    <div class="committee-recommendation-card">
-                        <div class="committee-recommendation-title">醫學人文委員推薦詳情</div>
-                        <div class="committee-recommendation-description">
-                            負責討論醫學人文相關委員推薦名單，包含醫學倫理、人文關懷、醫病溝通等領域專家的遴選建議
-                        </div>
-                        <a href="https://qpig0218.github.io/Med-Edu/Medhum.html" class="detail-button">
-                            查看醫學人文委員推薦詳情
-                        </a>
-                    </div>
-
-                    <div class="committee-recommendation-card">
-                        <div class="committee-recommendation-title">師資培育委員推薦詳情</div>
-                        <div class="committee-recommendation-description">
-                            負責討論師資培育相關委員推薦名單，包含教學方法、課程設計、教育評估等領域專家的遴選建議
-                        </div>
-                        <a href="https://qpig0218.github.io/Med-Edu/CFD.html" class="detail-button">
-                            查看師資培育委員推薦詳情
-                        </a>
-                    </div>
-
-                    <div class="committee-recommendation-card">
-                        <div class="committee-recommendation-title">醫學人文委員推薦詳情</div>
-                        <div class="committee-recommendation-description">
-                            負責討論醫學人文相關委員推薦名單，包含醫學倫理、人文關懷、醫病溝通等領域專家的遴選建議
-                        </div>
-                        <a href="https://qpig0218.github.io/Med-Edu/Medhum.html" class="detail-button">
-                            查看醫學人文委員推薦詳情
-                        </a>
-                    </div>
-
-                    <div class="committee-recommendation-card">
-                        <div class="committee-recommendation-title">數位賦能委員推薦詳情</div>
-                        <div class="committee-recommendation-description">
-                            負責討論數位賦能相關委員推薦名單，包含數位科技、創新教學、線上學習等領域專家的遴選建議
-                        </div>
-                        <a href="https://qpig0218.github.io/Med-Edu/digitalcapability.html" class="detail-button">
-                            查看數位賦能委員推薦詳情
-                        </a>
-                    </div>
-                </div>
+            <!-- 師資培育架構 -->
+            <div class="action-section">
+                <a href="CFD.html" class="action-button">查看師資培育架構詳情</a>
             </div>
-
         </div>
     </div>
 </body>
