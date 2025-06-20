@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>數位賦能組委員推薦人物名單</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-bottom: 30px;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            padding: 40px 20px 20px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .content {
+            padding: 0 40px 40px;
+        }
+
+        .category-section {
+            margin-bottom: 40px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .category-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 30px;
+            font-size: 1.5em;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .category-header:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+
+        .category-content {
+            padding: 30px;
+        }
+
+        .department-card {
+            background: #f8f9ff;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .department-header {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 15px 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .department-header:hover {
+            background: linear-gradient(135deg, #fed6e3 0%, #a8edea 100%);
+        }
+
+        .department-content {
+            padding: 20px;
+        }
+
+        .specialty-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .specialty-title {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .member-list {
+            list-style: none;
+        }
+
+        .member-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .member-item:last-child {
+            border-bottom: none;
+        }
+
+        .member-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .member-title {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .member-remark {
+            color: #888;
+            font-size: 0.85em;
+            font-style: italic;
+            background: #f0f8ff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            border-left: 3px solid #667eea;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 15px 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .content {
+                padding: 0 20px 20px;
+            }
+
+            .stats-bar {
+                gap: 15px;
+            }
+
+            .stat-item {
+                padding: 12px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="%20current.html" class="back-button" style="margin: 20px 0 0 20px;">← 返回討論會議</a>
+        
+        <div class="header">
+            <h1>數位賦能組委員推薦人物名單</h1>
+            <p>點擊類別以展開或收合詳細資訊</p>
+        </div>
+
+        <div class="content">
+            <!-- 統計資訊 -->
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <div class="stat-number">4</div>
+                    <div class="stat-label">現任委員</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">15</div>
+                    <div class="stat-label">推薦委員</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">19</div>
+                    <div class="stat-label">總計人數</div>
+                </div>
+            </div>
+
+            <!-- 現任委員名單 -->
+            <div class="category-section">
+                <div class="category-header" onclick="toggleCategory('current')">
+                    <span>現任委員名單 (人數: 4)</span>
+                    <span id="current-toggle">+</span>
+                </div>
+                <div class="category-content" id="current-content" style="display: none;">
+                    <div class="department-card">
+                        <div class="department-header" onclick="toggleDepartment('current-dept1')">
+                            品管中心 <span id="current-dept1-toggle">▶</span>
+                        </div>
+                        <div class="department-content" id="current-dept1-content" style="display: none;">
+                            <ul class="member-list">
+                                <li class="member-item">
+                                    <div class="member-name">杜漢祥 (主任)</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="department-card">
+                        <div class="department-header" onclick="toggleDepartment('current-dept2')">
+                            精神醫學部 <span id="current-dept2-toggle">▶</span>
+                        </div>
+                        <div class="department-content" id="current-dept2-content" style="display: none;">
+                            <ul class="member-list">
+                                <li class="member-item">
+                                    <div class="member-name">林健禾 (部長)</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="department-card">
+                        <div class="department-header" onclick="toggleDepartment('current-dept3')">
+                            藥劑部 <span id="current-dept3-toggle">▶</span>
+                        </div>
+                        <div class="department-content" id="current-dept3-content" style="display: none;">
+                            <ul class="member-list">
+                                <li class="member-item">
+                                    <div class="member-name">蘇慧真 (部長)</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="department-card">
+                        <div class="department-header" onclick="toggleDepartment('current-dept4')">
+                            資訊室 <span id="current-dept4-toggle">▶</span>
+                        </div>
+                        <div class="department-content" id="current-dept4-content" style="display: none;">
+                            <ul class="member-list">
+                                <li class="member-item">
+                                    <div class="member-name">陳佳蓉 (組長)</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 推薦委員名單 -->
+            <div class="category-section">
+                <div class="category-header" onclick="toggleCategory('recommended')">
+                    <span>推薦委員名單 (人數: 15)</span>
+                    <span id="recommended-toggle">+</span>
+                </div>
+                <div class="category-content" id="recommended-content" style="display: none;">
+                    <div class="department-card">
+                        <div class="department-header" onclick="toggleDepartment('recommended-dept1')">
+                            內科部 <span id="recommended-dept1-toggle">▶</span>
+                        </div>
+                        <div class="department-content" id="recommended-dept1-content" style="display: none;">
+                            <div class="specialty-section">
+                                <div class="specialty-title">腎臟科</div>
+                                <ul class="member-list">
+                                    <li class="member-item">
+                                        <div class="member-name">楊翼寧 (醫師)</div>
+                                        <div class="member-remark">為AI數位小組成員、PGY長期導師</div>
+                                    </li>
+                                    <li class="member-item">
+                                        <div class="member-name">黃琪雅 (醫師)</div>
+                                        <div class="member-remark">為AI數位小組成員、UGY、PGY A+醫師系統教學</div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="specialty-section">
+                                <div class="specialty-title">胸腔內科</div>
+                                <ul class="member-list">
+                                    <li class="member-item">
+                                        <div class="member-name">張庭嘉 (醫師)</div>
+                                        <div class="member-remark">OSCE考官、使用數位工具撰寫中山後醫PBL教案</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="department-card">
+                        <div class="department-header" onclick="toggleDepartment('recommended-dept2')">
+                            外科部 <span id="recommended-dept2-toggle">▶</span>
+                        </div>
+                        <div class="department-content" id="recommended-dept2-content" style="display: none;">
+                            <div class="specialty-section">
+                                <div class="specialty-title">泌尿外科</div>
+                                <ul class="member-list">
+                                    <li class="member-item">
+                                        <div class="member-name">謝昆霖 (醫師)</div>
+                                        <div class="member-remark">OSCE小組組長 臨床技能課程教學</div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="specialty-section">
+                                <div class="specialty-title">一般外科</div>
+                                <ul class="member-list">
+                                    <li class="member-item">
+                                        <div class="member-name">高佑銘 (醫師)</div>
+                                        <div class="member-remark">臨床技能課程教學</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="department-card">
+                        <div class="department-header" onclick="toggleDepartment('recommended-dept3')">
+                            骨科部 <span id="recommended-dept3-toggle">▶</span>
+                        </div>
+                        <div class="department-content" id="recommended-dept3-content" style="display: none;">
+                            <ul class="member-list">
+                                <li class="member-item">
+                                    <div class="member-name">林昇輝 (醫師)</div>
+                                    <div class="member-remark">個人設計系統彙整看診資料</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="department-card">
+                        <div class="department-header" onclick="toggleDepartment('recommended-dept4')">
+                            婦產部 <span id="recommended-dept4-toggle">▶</span>
+                        </div>
+                        <div class="department-content" id="recommended-dept4-content" style="display: none;">
+                            <ul class="member-list">
+                                <li class="member-item">
+                                    <div class="member-name">温仁育 (醫師)</div>
+                                    <div class="member-remark">病歷審查委員 UGY病歷指導老師 未來PGY教學負責人</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="department-card">
+                        <div class="department-header" onclick="toggleDepartment('recommended-dept5')">
+                            兒科部 <span id="recommended-dept5-toggle">▶</span>
+                        </div>
+                        <div class="department-content" id="recommended-dept5-content" style="display: none;">
+                            <ul class="member-list">
+                                <li class="member-item">
+                                    <div class="member-name">郭思辰 (醫師)</div>
+                                    <div class="member-remark">病歷審查委員 UGY病歷指導老師</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="department-card">
+                        <div class="department-header" onclick="toggleDepartment('recommended-dept6')">
+                            急診醫學部 <span id="recommended-dept6-toggle">▶</span>
+                        </div>
+                        <div class="department-content" id="recommended-dept6-content" style="display: none;">
+                            <ul class="member-list">
+                                <li class="member-item">
+                                    <div class="member-name">蔡長志 (醫師)</div>
+                                    <div class="member-remark">OSCE組長、UGY醫病溝通講師、 PGY長期導師、擬真情境競賽</div>
+                                </li>
+                                <li class="member-item">
+                                    <div class="member-name">李季恆 (醫師)</div>
+                                    <div class="member-remark">UGY急診教學負責人 PGY長期導師 臨床技能課程教學</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="department-card">
+                        <div class="department-header" onclick="toggleDepartment('recommended-dept7')">
+                            醫事職類 <span id="recommended-dept7-toggle">▶</span>
+                        </div>
+                        <div class="department-content" id="recommended-dept7-content" style="display: none;">
+                            <div class="specialty-section">
+                                <div class="specialty-title">A組</div>
+                                <ul class="member-list">
+                                    <li class="member-item">
+                                        <div class="member-name">黃建中</div>
+                                        <div class="member-remark">善用PowerBI、數位平台、放射診斷醫事教學負責人</div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="specialty-section">
+                                <div class="specialty-title">B組</div>
+                                <ul class="member-list">
+                                    <li class="member-item">
+                                        <div class="member-name">邱旅揚</div>
+                                        <div class="member-remark">專任教學型醫事人員</div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="specialty-section">
+                                <div class="specialty-title">C組</div>
+                                <ul class="member-list">
+                                    <li class="member-item">
+                                        <div class="member-name">張鈴艷</div>
+                                        <div class="member-remark">專任教學型醫事人員</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleCategory(categoryId) {
+            const content = document.getElementById(categoryId + '-content');
+            const toggle = document.getElementById(categoryId + '-toggle');
+            
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+                toggle.textContent = '−';
+            } else {
+                content.style.display = 'none';
+                toggle.textContent = '+';
+            }
+        }
+
+        function toggleDepartment(departmentId) {
+            const content = document.getElementById(departmentId + '-content');
+            const toggle = document.getElementById(departmentId + '-toggle');
+            
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+                toggle.textContent = '▼';
+            } else {
+                content.style.display = 'none';
+                toggle.textContent = '▶';
+            }
+        }
+    </script>
+</body>
+</html>
