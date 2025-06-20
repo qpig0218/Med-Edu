@@ -377,6 +377,70 @@
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
         }
 
+        .links-section {
+            margin-top: 40px;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid #0ea5e9;
+        }
+
+        .links-title {
+            font-size: 1.5em;
+            font-weight: 600;
+            color: #0c4a6e;
+            margin-bottom: 20px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .links-title::before {
+            content: '🔗';
+            font-size: 1.2em;
+        }
+
+        .links-description {
+            font-size: 1em;
+            line-height: 1.6;
+            color: #0c4a6e;
+            margin-bottom: 25px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .action-button {
+            display: block;
+            padding: 15px 20px;
+            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1em;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .action-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(14, 165, 233, 0.4);
+            background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 100%);
+        }
+
         @media (max-width: 768px) {
             .header h1 {
                 font-size: 2em;
@@ -551,9 +615,18 @@
                 </div>
             </div>
 
-            <!-- 師資培育架構 -->
-            <div class="action-section">
-                <a href="CFD.html" class="action-button">查看師資培育架構詳情</a>
+            <!-- 委員會推薦詳情連結 -->
+            <div class="links-section">
+                <h3 class="links-title">委員會推薦詳情</h3>
+                <div class="links-description">
+                    以下連結提供各委員會的專業推薦詳情，這些資訊對於了解委員會的組成背景和專業能力具有重要價值，有助於提升醫學教育品質和教學效能。
+                </div>
+                <div class="links-grid">
+                    <a href="https://qpig0218.github.io/Med-Edu/Medhum.html" class="action-button">查看醫學人文委員推薦詳情</a>
+                    <a href="https://qpig0218.github.io/Med-Edu/CFD.html" class="action-button">查看師資培育委員推薦詳情</a>
+                    <a href="https://qpig0218.github.io/Med-Edu/Medhum.html" class="action-button">查看醫學人文委員推薦詳情</a>
+                    <a href="https://qpig0218.github.io/Med-Edu/digitalcapability.html" class="action-button">查看數位賦能委員推薦詳情</a>
+                </div>
             </div>
         </div>
     </div>
