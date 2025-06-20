@@ -1,0 +1,386 @@
+<script>
+        // 移除不需要的複製功能，改為統一的視窗開啟功能
+    </script><!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>醫學教育委員會委員名單推薦討論</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft JhengHei', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .date {
+            font-size: 1.2em;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .groups-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .group-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e0e0e0;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .group-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+        }
+
+        .group-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .group-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 25px;
+            text-align: center;
+            padding: 15px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 10px;
+        }
+
+        .members-section {
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 8px;
+        }
+
+        .members {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .member {
+            color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-weight: 500;
+            font-size: 1.1em;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .member:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .member.leader {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-weight: 700;
+            font-size: 1.2em;
+            padding: 14px 24px;
+            position: relative;
+        }
+
+        .member.leader::after {
+            content: '★';
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            color: #ffd700;
+            font-size: 0.8em;
+        }
+
+        .member.regular {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .description {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            line-height: 1.8;
+            color: #555;
+            text-align: center;
+            font-size: 1.1em;
+        }
+
+        .current-committee {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+        }
+
+        .current-committee .group-title {
+            background: linear-gradient(135deg, #fdcb6e 0%, #e17055 100%);
+            color: white;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            font-weight: 500;
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+        }
+
+        .legend-color.leader { 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .detail-button {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 1em;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .detail-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+
+        .legend-color.regular { 
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        @media (max-width: 768px) {
+            .groups-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .member {
+                font-size: 1em;
+                padding: 10px 16px;
+            }
+
+            .member.leader {
+                font-size: 1.1em;
+                padding: 12px 20px;
+            }
+        }
+    </style>
+    <script>
+        function copyToClipboard(url) {
+            navigator.clipboard.writeText(url).then(function() {
+                // 顯示成功訊息
+                if (url.includes('claude.ai')) {
+                    document.getElementById('copy-message-1').style.display = 'block';
+                    setTimeout(() => {
+                        document.getElementById('copy-message-1').style.display = 'none';
+                    }, 3000);
+                } else {
+                    document.getElementById('copy-message-2').style.display = 'block';
+                    setTimeout(() => {
+                        document.getElementById('copy-message-2').style.display = 'none';
+                    }, 3000);
+                }
+            }).catch(function(err) {
+                alert('複製失敗，請手動複製連結：' + url);
+            });
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>醫學教育委員會委員名單推薦討論</h1>
+            <div class="date">第2次討論會議</div>
+        </div>
+
+        <div class="groups-container">
+            <!-- 醫學人文組 -->
+            <div class="group-card">
+                <div class="group-title">醫學人文</div>
+                
+                <div class="section">
+                    <div class="section-title">討論小組成員</div>
+                    <div class="members">
+                        <span class="member leader"><strong>詩芸</strong></span>
+                        <span class="member regular"><strong>嬿茹</strong></span>
+                        <span class="member regular"><strong>瑞穗</strong></span>
+                        <span class="member regular"><strong>惠津</strong></span>
+                    </div>
+                </div>
+
+                <div class="description">
+                    負責討論醫學人文相關委員推薦名單，包含醫學倫理、人文關懷、醫病溝通等領域專家的遴選建議
+                    <div class="detail-button" onclick="window.open('https://claude.ai/public/artifacts/ce6b9c10-3c1b-4c92-8142-efeb25a369db', '_blank')">
+                        查看醫學人文組委員推薦詳情
+                    </div>
+                </div>
+            </div>
+
+            <!-- CBME組 -->
+            <div class="group-card">
+                <div class="group-title">CBME</div>
+                
+                <div class="section">
+                    <div class="section-title">討論小組成員</div>
+                    <div class="members">
+                        <span class="member leader"><strong>宜婷</strong></span>
+                        <span class="member regular"><strong>淑雅</strong></span>
+                        <span class="member regular"><strong>昱瑾</strong></span>
+                    </div>
+                </div>
+
+                <div class="description">
+                    專責能力基礎醫學教育(Competency-Based Medical Education)委員推薦，研討課程設計、評量方式及能力指標制定相關人選
+                    <div class="detail-button" onclick="window.open('https://claude.ai/public/artifacts/f716ed05-1d04-45e9-814f-71c0efebbd28', '_blank')">
+                        查看CBME組委員推薦詳情
+                    </div>
+                </div>
+            </div>
+
+            <!-- 數位賦能組 -->
+            <div class="group-card">
+                <div class="group-title">數位賦能</div>
+                
+                <div class="section">
+                    <div class="section-title">討論小組成員</div>
+                    <div class="members">
+                        <span class="member leader"><strong>曉琪</strong></span>
+                        <span class="member regular"><strong>英云</strong></span>
+                        <span class="member regular"><strong>盟淦</strong></span>
+                        <span class="member regular"><strong>淑怡</strong></span>
+                    </div>
+                </div>
+
+                <div class="description">
+                    聚焦數位教學工具、AI應用、線上學習平台等數位轉型相關委員推薦，推動醫學教育創新發展
+                    <div class="detail-button" onclick="window.open('https://g.co/gemini/share/d72516d13fbf', '_blank')">
+                        查看數位賦能相關資料
+                    </div>
+                </div>
+            </div>
+
+            <!-- 師資培育組 -->
+            <div class="group-card">
+                <div class="group-title">師資培育</div>
+                
+                <div class="section">
+                    <div class="section-title">討論小組成員</div>
+                    <div class="members">
+                        <span class="member leader"><strong>汶秀</strong></span>
+                        <span class="member regular"><strong>依玲</strong></span>
+                        <span class="member regular"><strong>迎真</strong></span>
+                    </div>
+                </div>
+
+                <div class="description">
+                    負責師資發展、教學技巧培訓、教師認證制度等相關委員推薦，建構完整的醫學教師培育體系
+                    <div class="detail-button" onclick="window.open('https://claude.ai/public/artifacts/71afad0c-6bdf-4d0e-85a6-e6d319de861a', '_blank')">
+                        查看師資培育架構詳情
+                    </div>
+                </div>
+            </div>
+
+            <!-- 現任委員名單 -->
+            <div class="group-card current-committee">
+                <div class="group-title">現任委員名單</div>
+                
+                <div class="detail-button" onclick="window.open('https://claude.ai/public/artifacts/98d5b88a-8874-4cbe-bcb4-2ad25edb7a0f', '_blank')">
+                    查看現任委員名單
+                </div>
+            </div>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color leader"></div>
+                <span>小組召集人</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color regular"></div>
+                <span>小組成員</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

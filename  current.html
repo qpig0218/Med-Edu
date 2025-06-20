@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>醫學教育委員會組織架構</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .leadership-section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            font-weight: 600;
+            color: #4f46e5;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 30px;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            border-radius: 2px;
+        }
+
+        .leadership-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .leader-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(79, 70, 229, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .leader-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #4f46e5, #7c3aed);
+        }
+
+        .leader-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(79, 70, 229, 0.15);
+        }
+
+        .leader-title {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #4f46e5;
+            margin-bottom: 8px;
+        }
+
+        .leader-name {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .committees-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .committee-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .committee-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #06b6d4, #3b82f6);
+        }
+
+        .committee-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .committee-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .committee-title::before {
+            content: '🏥';
+            font-size: 1.1em;
+        }
+
+        .member-list {
+            list-style: none;
+        }
+
+        .member-item {
+            padding: 8px 0;
+            border-bottom: 1px solid #f1f5f9;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .member-item:last-child {
+            border-bottom: none;
+        }
+
+        .member-item:hover {
+            background: rgba(79, 70, 229, 0.05);
+            padding-left: 10px;
+            border-radius: 8px;
+        }
+
+        .member-item::before {
+            content: '•';
+            color: #06b6d4;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .attendees-section {
+            margin-top: 40px;
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid #f59e0b;
+        }
+
+        .attendees-title {
+            font-size: 1.5em;
+            font-weight: 600;
+            color: #92400e;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .attendees-title::before {
+            content: '👥';
+            font-size: 1.2em;
+        }
+
+        .attendees-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .attendee-item {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            transition: all 0.2s ease;
+        }
+
+        .attendee-item:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateY(-2px);
+        }
+
+        .qualifications-section {
+            margin-top: 40px;
+            background: linear-gradient(135deg, #e0f2fe 0%, #b3e5fc 100%);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid #0288d1;
+        }
+
+        .qualifications-title {
+            font-size: 1.5em;
+            font-weight: 600;
+            color: #01579b;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .qualifications-title::before {
+            content: '📋';
+            font-size: 1.2em;
+        }
+
+        .qualification-item {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(2, 136, 209, 0.2);
+            transition: all 0.2s ease;
+        }
+
+        .qualification-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .qualification-item:hover {
+            background: rgba(255, 255, 255, 0.95);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(2, 136, 209, 0.15);
+        }
+
+        .qualification-header {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #01579b;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .qualification-header::before {
+            content: '●';
+            color: #0288d1;
+            font-size: 1.2em;
+        }
+
+        .qualification-content {
+            font-size: 1em;
+            line-height: 1.6;
+            color: #263238;
+            text-align: justify;
+        }
+
+        .stats-section {
+            margin-top: 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #ec4899 0%, #be185d 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(236, 72, 153, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(236, 72, 153, 0.4);
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .leadership-grid,
+            .committees-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>醫學教育委員會</h1>
+            <p>成員名單(任期至114.07.31)</p>
+        </div>
+        
+        <div class="content">
+            <!-- 領導層 -->
+            <div class="leadership-section">
+                <h2 class="section-title">委員會領導階層</h2>
+                <div class="leadership-grid">
+                    <div class="leader-card">
+                        <div class="leader-title">主任委員</div>
+                        <div class="leader-name">教學副院長 陳志成教授</div>
+                    </div>
+                    <div class="leader-card">
+                        <div class="leader-title">副主任委員</div>
+                        <div class="leader-name">教學中心主任 郭進榮教授</div>
+                    </div>
+                    <div class="leader-card">
+                        <div class="leader-title">總幹事</div>
+                        <div class="leader-name">教學中心 劉雯副主任</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 委員會成員 -->
+            <div class="section-title">委員會成員</div>
+            <div class="committees-grid">
+                <div class="committee-card">
+                    <div class="committee-title">臨床科部代表</div>
+                    <ul class="member-list">
+                        <li class="member-item">教學中心 廖家德副主任 (暨實證醫學暨醫療政策中心主任)</li>
+                        <li class="member-item">教師培育中心 吳銘斌主任</li>
+                        <li class="member-item">臨床技能中心 楊浚銘主任</li>
+                        <li class="member-item">病歷委員會 王憲奕副部長</li>
+                        <li class="member-item">醫學研究委員會 李健逢部長</li>
+                        <li class="member-item">一般科 郭妍伶主任</li>
+                        <li class="member-item">一般醫學外科 洪翊傑主任</li>
+                        <li class="member-item">住院醫師訓練 甘偉志主任</li>
+                        <li class="member-item">住院醫師訓練 陳志偉主任</li>
+                        <li class="member-item">實習醫學生訓練 孫定平主任</li>
+                        <li class="member-item">病歷審查 吳鴻昌醫師</li>
+                        <li class="member-item">品質管理中心 杜漢祥主任</li>
+                        <li class="member-item">婦產部 徐英倫醫師</li>
+                        <li class="member-item">兒科部 陳威毓醫師</li>
+                        <li class="member-item">急診醫學部 王嘉地主任</li>
+                        <li class="member-item">家庭醫學部 蔡岡廷部長</li>
+                        <li class="member-item">加護醫學部 陳奇祥醫務秘書</li>
+                        <li class="member-item">麻醉部 褚錦承副部長</li>
+                        <li class="member-item">牙醫部 陳冠良主任</li>
+                        <li class="member-item">中醫部 王瑜婷主任</li>
+                        <li class="member-item">精神醫學部、臨床心理 林健禾部長</li>
+                    </ul>
+                </div>
+
+                <div class="committee-card">
+                    <div class="committee-title">醫事職類代表</div>
+                    <ul class="member-list">
+                        <li class="member-item">藥事 蘇慧真部長</li>
+                        <li class="member-item">醫事放射 么煥忠技術主任</li>
+                        <li class="member-item">醫事檢驗 王傑田主任</li>
+                        <li class="member-item">護理 江惠英副部長</li>
+                        <li class="member-item">營養 劉美媛主任</li>
+                        <li class="member-item">呼吸治療 梁懿珊組長</li>
+                        <li class="member-item">聽力 李國玲組長</li>
+                        <li class="member-item">物理治療、職能治療、語言治療 葉建男技術主任</li>
+                    </ul>
+                </div>
+
+                <div class="committee-card">
+                    <div class="committee-title">行政單位代表</div>
+                    <ul class="member-list">
+                        <li class="member-item">員工教育訓練 李敏禎主任(人力資源部)</li>
+                        <li class="member-item">醫學圖書館 陳憶玲組長</li>
+                        <li class="member-item">視聽中心 陳志金主任</li>
+                        <li class="member-item">資訊室 陳佳蓉組長</li>
+                    </ul>
+                </div>
+
+                <div class="committee-card">
+                    <div class="committee-title">學員代表</div>
+                    <ul class="member-list">
+                        <li class="member-item">住院醫師代表 內科部總醫師1位</li>
+                        <li class="member-item">住院醫師代表 外科部總醫師1位</li>
+                        <li class="member-item">PGY醫師代表 1位</li>
+                        <li class="member-item">實習醫學生代表 1位</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 列席人員 -->
+            <div class="attendees-section">
+                <h3 class="attendees-title">列席人員</h3>
+                <div class="attendees-grid">
+                    <div class="attendee-item">院長室 田宇峯首席醫療副院長</div>
+                    <div class="attendee-item">婦產部總醫師 1位</div>
+                    <div class="attendee-item">兒科部總醫師 1位</div>
+                    <div class="attendee-item">實習醫學生訓練 葉正發醫師</div>
+                    <div class="attendee-item">病歷審查 江銘彥醫師</div>
+                    <div class="attendee-item">專責教學型VS 陳鋭溢醫師</div>
+                    <div class="attendee-item">專責教學型VS 王致丞主任</div>
+                    <div class="attendee-item">專任教學型VS 陳伯榕醫師</div>
+                    <div class="attendee-item">專任教學型醫師人員 黃淑芬組長</div>
+                    <div class="attendee-item">專任教學型醫師人員 邱旅揚護理師</div>
+                    <div class="attendee-item">專任教學型醫師人員 張鈴艷總技師</div>
+                    <div class="attendee-item">醫學研究部 吳雅慧組長</div>
+                </div>
+            </div>
+
+            <!-- 統計數據 -->
+            <div class="stats-section">
+                <div class="stat-card">
+                    <div class="stat-number">21</div>
+                    <div class="stat-label">臨床科部代表</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">8</div>
+                    <div class="stat-label">醫事職類代表</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">4</div>
+                    <div class="stat-label">行政單位代表</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">4</div>
+                    <div class="stat-label">學員代表</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">12</div>
+                    <div class="stat-label">列席人員</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">52</div>
+                    <div class="stat-label">委員會成員</div>
+                </div>
+            </div>
+
+            <!-- 委員會委員資格條件 -->
+            <div class="qualifications-section">
+                <h3 class="qualifications-title">委員會委員資格條件</h3>
+                <div class="qualification-item">
+                    <div class="qualification-header">教學醫院評鑑基準1.4.1：</div>
+                    <div class="qualification-content">
+                        醫教會設置主任委員1名，由現任副院長以上層級人員擔任，且須具部定副教授以上資格。委員包括各臨床部科及醫事教學負責人若干名、住院醫師代表至少2名(新申請教學醫院評鑑或僅聘用1位住院醫師之醫院不在此限)。若醫院有全年度實習之學生訓練，則至少有1名學生代表為委員。
+                    </div>
+                </div>
+                <div class="qualification-item">
+                    <div class="qualification-header">教學醫院評鑑基準5.1.1：</div>
+                    <div class="qualification-content">
+                        教學訓練計畫總主持人有教學熱忱及教育部部定副教授以上資格，且有適當經驗或具一般醫學教師資格，並確實負責主持計畫相關事務。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

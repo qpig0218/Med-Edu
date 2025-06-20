@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>醫學人文組委員推薦名單</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft JhengHei', Arial, sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: linear-gradient(45deg, #ff9a9e, #fecfef);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-bottom: 30px;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+            padding: 15px 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #d63031;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            color: #636e72;
+            margin-top: 5px;
+        }
+
+        .members-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .member-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid #f8d7da;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .member-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(45deg, #ff9a9e, #fecfef);
+        }
+
+        .member-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .member-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .member-type {
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-right: 15px;
+        }
+
+        .member-type.doctor {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            color: white;
+        }
+
+        .member-type.staff {
+            background: linear-gradient(135deg, #fab1a0 0%, #ffeaa7 100%);
+            color: white;
+        }
+
+        .member-name {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #2d3436;
+        }
+
+        .member-unit {
+            color: #636e72;
+            font-size: 1em;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .member-details {
+            margin-top: 15px;
+        }
+
+        .detail-section {
+            margin-bottom: 15px;
+        }
+
+        .detail-title {
+            font-weight: bold;
+            color: #e17055;
+            margin-bottom: 8px;
+            font-size: 1em;
+        }
+
+        .detail-content {
+            background: #fff5f5;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border-left: 4px solid #ff9a9e;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .risk-content {
+            background: #ffe6e6;
+            border-left-color: #d63031;
+        }
+
+        .no-data {
+            color: #95a5a6;
+            font-style: italic;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .category-header {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            margin: 30px 0 20px 0;
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .members-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .stats-bar {
+                gap: 15px;
+            }
+
+            .stat-item {
+                padding: 12px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="javascript:history.back()" class="back-button">← 返回討論會議</a>
+        
+        <div class="header">
+            <h1>醫學人文組委員推薦名單</h1>
+        </div>
+
+        <div class="stats-bar">
+            <div class="stat-item">
+                <span class="stat-number">13</span>
+                <span class="stat-label">推薦委員總數</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">7</span>
+                <span class="stat-label">醫師委員</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">6</span>
+                <span class="stat-label">職類委員</span>
+            </div>
+        </div>
+
+        <div class="category-header">醫師委員</div>
+        <div class="members-grid">
+            <!-- 張榮哲主任 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <span class="member-type doctor">醫師</span>
+                    <span class="member-name">張榮哲主任</span>
+                </div>
+                <div class="member-unit">奇康診所</div>
+                <div class="member-details">
+                    <div class="detail-section">
+                        <div class="detail-title">助益</div>
+                        <div class="detail-content">
+                            致力於將醫學人文深入於醫病關係
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 謝宛婷主任 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <span class="member-type doctor">醫師</span>
+                    <span class="member-name">謝宛婷主任</span>
+                </div>
+                <div class="member-unit">緩和醫療中心</div>
+                <div class="member-details">
+                    <div class="detail-section">
+                        <div class="detail-title">助益</div>
+                        <div class="detail-content">
+                            兼具人文視野與法律知識之學者
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-title">風險</div>
+                        <div class="detail-content risk-content">
+                            非常忙碌
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 陳鋭溢醫師 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <span class="member-type doctor">醫師</span>
+                    <span class="member-name">陳鋭溢醫師</span>
+                </div>
+                <div class="member-unit">腎臟科</div>
+                <div class="member-details">
+                    <div class="detail-section">
+                        <div class="detail-title">助益</div>
+                        <div class="detail-content">
+                            具現代教學觀念，能理解年輕醫師學習需求，<br>
+                            展現高度教學投入與前瞻思維
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 蔡孟修主任 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <span class="member-type doctor">醫師</span>
+                    <span class="member-name">蔡孟修主任</span>
+                </div>
+                <div class="member-unit">健康管理中心</div>
+                <div class="member-details">
+                    <div class="detail-section">
+                        <div class="detail-title">助益</div>
+                        <div class="detail-content">
+                            生活型態醫學的專家、敘事醫學文章競賽團隊照護第一名
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 胡凱淇醫師 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <span class="member-type doctor">醫師</span>
+                    <span class="member-name">胡凱淇醫師(R4)</span>
+                </div>
+                <div class="member-unit">胸腔內科</div>
+                <div class="member-details">
+                    <div class="detail-section">
+                        <div class="detail-title">助益</div>
+                        <div class="detail-content">
+                            積極參與醫療服務社、有熱忱、忙碌中仍擔任志工協助越南人就醫
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-title">風險</div>
+                        <div class="detail-content risk-content">
+                            教學接觸不高
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 古關光浩醫師 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <span class="member-type doctor">醫師</span>
+                    <span class="member-name">古關光浩醫師(R5)</span>
+                </div>
+                <div class="member-unit">胃腸肝膽科</div>
+                <div class="member-details">
+                    <div class="detail-section">
+                        <div class="detail-title">助益</div>
+                        <div class="detail-content">
+                            台日交流、多元文化融合
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-title">風險</div>
+                        <div class="detail-content risk-content">
+                            教學接觸不高
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 温仁育醫師 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <span class="member-type doctor">醫師</span>
+                    <span class="member-name">温仁育醫師</span>
+                </div>
+                <div class="member-unit">生殖醫學科</div>
+                <div class="member-details">
+                    <div class="detail-section">
+                        <div class="detail-title">助益</div>
+                        <div class="detail-content">
+                            寫作文章感性又浪漫
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-title">風險</div>
+                        <div class="detail-content risk-content">
+                            教學接觸不高
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category-header">職類委員</div>
+        <div class="members-grid">
+            <!-- 蘇慧真部長 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <span class="member-type staff">職類</span>
+                    <span class="member-name">蘇慧真部長</span>
+                </div>
+                <div class="member-unit">藥劑部</div>
+                <div class="member-details">
+                    <div class="no-data">暫無詳細資料</div>
+                </div>
+            </div>
+
+            <!-- 邱美珠高專 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <span class="member-type staff">職類</span>
+                    <span class="member-name">邱美珠高專</span>
+                </div>
+                <div class="member-unit">社會服務部</div>
+                <div class="member-details">
+                    <div class="detail-section">
+                        <div class="detail-title">助益</div>
+                        <div class="detail-content">
+                            致力推廣醫學人文課程
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-title">風險</div>
+                        <div class="detail-content risk-content">
+                            預計1年半後退休
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 黃淑芬組長 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <span class="member-type staff">職類</span>
+                    <span class="member-name">黃淑芬組長</span>
+                </div>
+                <div class="member-unit">藥劑部</div>
+                <div class="member-details">
+                    <div class="detail-section">
+                        <div class="detail-title">助益</div>
+                        <div class="detail-content">
+                            致力推動醫學人文課程，導入視覺思考策略VTS於人文課程
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 王逸婷小組長 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <span class="member-type staff">職類</span>
+                    <span class="member-name">王逸婷小組長</span>
+                </div>
+                <div class="member-unit">營養科</div>
+                <div class="member-details">
+                    <div class="detail-section">
+                        <div class="detail-title">助益</div>
+                        <div class="detail-content">
+                            科部自辦的人文課程講師
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-title">風險</div>
+                        <div class="detail-content risk-content">
+                            剛接觸教學
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 邱旅揚教學型醫事人員 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <span class="member-type staff">職類</span>
+                    <span class="member-name">邱旅揚教學型醫事人員</span>
+                </div>
+                <div class="member-unit">護理部</div>
+                <div class="member-details">
+                    <div class="detail-section">
+                        <div class="detail-title">助益</div>
+                        <div class="detail-content">
+                            醫事職類人文課程種子教師
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 張鈴艷教學型醫事人員 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <span class="member-type staff">職類</span>
+                    <span class="member-name">張鈴艷教學型醫事人員</span>
+                </div>
+                <div class="member-unit">復健部職能治療組</div>
+                <div class="member-details">
+                    <div class="detail-section">
+                        <div class="detail-title">助益</div>
+                        <div class="detail-content">
+                            醫事職類人文課程種子教師
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

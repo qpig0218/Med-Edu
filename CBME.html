@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBME組委員推薦名單</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft JhengHei', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #667eea 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            color: #636e72;
+            margin-bottom: 20px;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-bottom: 30px;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 15px 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #5d4e75;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            color: #636e72;
+            margin-top: 5px;
+        }
+
+        .members-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .member-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e8e8e8;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .member-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+        }
+
+        .member-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .member-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .member-type {
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-right: 10px;
+        }
+
+        .member-type.doctor {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .member-type.staff {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            color: #5d4e75;
+        }
+
+        .generation-tag {
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: 600;
+            margin-left: auto;
+        }
+
+        .generation-tag.young {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .generation-tag.middle {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+
+        .generation-tag.senior {
+            background: #f3e5f5;
+            color: #7b1fa2;
+        }
+
+        .generation-tag.middle-young {
+            background: #e8f5e8;
+            color: #388e3c;
+        }
+
+        .member-name {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #2d3436;
+            width: 100%;
+            margin-bottom: 5px;
+        }
+
+        .member-info {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .member-department {
+            color: #636e72;
+            font-weight: 500;
+        }
+
+        .member-position {
+            color: #5d4e75;
+            font-weight: 600;
+        }
+
+        .member-details {
+            margin-top: 15px;
+        }
+
+        .detail-section {
+            margin-bottom: 15px;
+        }
+
+        .detail-title {
+            font-weight: bold;
+            color: #5d4e75;
+            margin-bottom: 8px;
+            font-size: 1em;
+        }
+
+        .detail-content {
+            background: #f8f9ff;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .risk-content {
+            background: #fff5f5;
+            border-left-color: #e74c3c;
+        }
+
+        .no-data {
+            color: #95a5a6;
+            font-style: italic;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .category-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            margin: 30px 0 20px 0;
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .members-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .stats-bar {
+                gap: 15px;
+            }
+
+            .stat-item {
+                padding: 12px 20px;
+            }
+
+            .member-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .generation-tag {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="javascript:history.back()" class="back-button">← 返回討論會議</a>
+        
+        <div class="header">
+            <h1>CBME組委員推薦名單</h1>
+            <div class="subtitle">彙集學員回饋與同仁相處綜合意見</div>
+        </div>
+
+        <div class="stats-bar">
+            <div class="stat-item">
+                <span class="stat-number">30</span>
+                <span class="stat-label">推薦委員總數</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">22</span>
+                <span class="stat-label">醫師委員</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">8</span>
+                <span class="stat-label">職類委員</span>
+            </div>
+        </div>
+
+        <div class="category-header">醫師委員</div>
+        <div class="members-grid">
+            <!-- 陳鋭溢 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <span class="member-type doctor">醫師</span>
+                    <span class="generation-tag middle">中世代</span>
+                </div>
+                <div class="member-name">陳鋭溢</div>
+                <div class="member-info">
+                    <span class="member-department">腎臟科</span>
+                    <span class="member-position">VS</span>
+                </div>
+                <div class="member-details">
+                    <div class="detail-section">
+                        <div class="detail-title">助益</div>
+                        <div class="detail-content">
+                            與時俱進創新教學設計、教學認真、學員收穫豐富
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-title">風險</div>
+                        <div class="detail-content risk-content">
+                            高標自律，他人可能較緊繃
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 甘偉志 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <span class="member-type doctor">醫師</span>
+                    <span class="generation-tag senior">資深</span>
+                </div>
+                <div class="member-name">甘偉志</div>
+                <div class="member-info">
+                    <span class="member-department">腎臟科</span>
+                    <span class="member-position">VS</span>
+                </div>
+                <div class="member-details">
+                    <div class="detail-section">
+                        <div class="detail-title">助益</div>
+                        <div class="detail-content">
+                            大內科、教學經驗豐富、同理心、心思細膩
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-title">風險</div>
+                        <div class="detail-content risk-content">
+                            臨床業務繁忙
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 楊翼寧 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <span class="member-type doctor">醫師</span>
+                    <span class="generation-tag young">青世代</span>
+                </div>
+                <div class="member-name">楊翼寧</div>
+                <div class="member-info">
+                    <span class="member-department">腎臟科</span>
+                    <span class="member-position">VS</span>
+                </div>
+                <div class="member-details">
+                    <div class="detail-section">
+                        <div class="detail-title">助益</div>
+                        <div class="detail-content">
+                            好溝通、富有教學熱忱
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-title">風險</div>
+                        <div class="detail-content risk-content">
+                            臨床業務繁忙
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 簡志強 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <span class="member-type doctor">醫師</span>
+                    <span class="generation-tag middle">中世代</span>
+                </div>
+                <div class="member-name">簡志強</div>
+                <div class="member-info">
+                    <span class="member-department">腎臟科</span>
+                    <span class="member-position">VS</span>
+                </div>
+                <div class="member-details">
+                    <div class="detail-section">
+                        <div class="detail-title">助益</div>
+                        <div class="detail-content">
+                            待人客氣友善、用心教學
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 楊勝翔 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <span class="member-type doctor">醫師</span>
+                    <span class="generation-tag middle">中世代</span>
+                </div>
+                <div class="member-name">楊勝翔</div>
+                <div class="member-info">
+                    <span class="member-department">神經內科</span>
+                    <span class="member-position">VS</span>
+                </div>
+                <div class="member-details">
+                    <div class="detail-section">
+                        <div class="detail-title">助益</div>
+                        <div class="detail-content">
+                            待人客氣友善、用心教學
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-title">風險</div>
+                        <div class="detail-content risk-content">
+                            容易陷入被動服從任務模式
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 黃琪雅 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <span class="member-type doctor">醫師</span>
+                    <span class="generation-tag young">青世代</span>
+                </div>
+                <div class="member-name">黃琪雅</div>
+                <div class="member-info">
+                    <span class="member-department">腎臟科</span>
+                    <span class="member-position">R5</span>
+                </div>
+                <div class="member-details">
+                    <div class="detail-section">
+                        <div class="detail-title">助益</div>
+                        <div class="detail-content">
+                            樂觀進取
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 陳志偉 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <span class="member-type doctor">醫師</span>
+                    <span class="generation-tag senior">資深</span>
+                </div>
+                <div class="member-name">陳志偉</div>
+                <div class="member-info">
+                    <span class="member-department">神經外科</span>
+                    <span class="member-position">VS</span>
+                </div>
+                <div class="member-details">
+                    <div class="detail-section">
+                        <div class="detail-title">助益</div>
+                        <div class="detail-content">
+                            大外科、教學經驗豐富、決策果決
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-title">風險</div>
+                        <div class="detail-content risk-content">
+                            臨床業務繁忙、身兼多職
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 高佑銘 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <span class="member-type doctor">醫師</span>
+                    <span class="generation-tag young">青世代</span>
+                </div>
+                <div class="member-name">高佑銘</div>
+                <div class="member-info">
+                    <span class="member-department">加護醫學部(原外科)</span>
+                    <span class="member-position">VS</span>
+                </div>
+                <div class="member-details">
+                    <div class="detail-section">
+                        <div class="detail-title">助益</div>
+                        <div class="detail-content">
+                            有教學熱忱、有想法
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-title">風險</div>
+                        <div class="detail-content risk-content">
+                            臨床業務繁忙、身兼多職
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 陳昱廷 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <span class="member-type doctor">醫師</span>
+                    <span class="generation-tag young">青世代</span>
+                </div>
+                <div class="member-name">陳昱廷</div>
+                <div class="member-info">
+                    <span class="member-department">神經外科</span>
+                    <span class="member-position">R6</span>
+                </div>
+                <div class="member-details">
+                    <div class="detail-section">
+                        <div class="detail-title">助益</div>
+                        <div class="detail-content">
+                            有教學熱忱、有想法
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-title">風險</div>
+                        <div class="detail-content risk-content">
+                            需適當誘因強化教學動能，偶有情緒衝突風險
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 謝佳駤 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <span class="member-type doctor">醫師</span>
+                    <span class="generation-tag young">青世代</span>
+                </div>
+                <div class="member-name">謝佳駤</div>
+                <div class="member-info">
+                    <span class="member-department">泌尿外科</span>
+                    <span class="member-position">R3</span>
+                </div>
+                <div class="member-details">
+                    <div class="detail-section">
+                        <div class="detail-title">助益</div>
+                        <div class="detail-content">
+                            年輕有教學熱忱
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-title">風險</div>
+                        <div class="detail-content risk-content">
+                            過於率直、偶有情緒衝突風險
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 蔡勝閔 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <span class="member-type doctor">醫師</span>
+                    <span class="generation-tag young">青世代</span>
+                </div>
+                <div class="member-name">蔡勝閔</div>
+                <div class="member-info">
+                    <span class="member-department">泌尿外科</span>
+                    <span class="member-position">R5</span>
+                </div>
+                <div class="member-details">
+                    <div class="detail-section">
+                        <div class="detail-title">助益</div>
+                        <div class="detail-content">
+                            年輕有教學熱忱
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-title">風險</div>
+                        <div class="detail-content risk-content">
+                            過於率直、偶有情緒衝突風險
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 李宗儒 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <span class="member-type doctor">醫師</span>
+                    <span class="generation-tag young">青世代</span>
+                </div>
+                <div class="member-name">李宗儒</div>
+                <div class="member-info">
+                    <span class="member-department">一般外科</span>
+                    <span class="member-position">R4</span>
+                </div>
+                <div class="member-details">
+                    <div class="detail-section">
+                        <div class="detail-title">助益</div>
+                        <div class="detail-content">
+                            年輕有教學熱忱
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-title">風險</div>
+                        <div class="detail-content risk-content">
+                            過於率直、偶有情緒衝突風險
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 李政亞 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <span class="member-type doctor">醫師</span>
+                    <span class="generation-tag young">青世代</span>
+                </div>
+                <div class="member-name">李政亞</div>
+                <div class="member-info">
+                    <span class="member-department">心臟外科</span>
+                    <span class="member-position">VS</span>
+                </div>
+                <div class="member-details">
+                    <div class="detail-section">
+                        <div class="detail-title">助益</div>
+                        <div class="detail-content">
+                            年輕有教學熱忱
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-title">風險</div>
+                        <div class="detail-content risk-content">
+                            過於率直、偶有情緒衝突風險
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 陳怡婷 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <span class="member-type doctor">醫師</span>
+                    <span class="generation-tag young">青世代</span>
+                </div>
+                <div class="member-name">陳怡婷</div>
+                <div class="member-info">
+                    <span class="member-department">婦產部</span>
+                    <span class="member-position">VS</span>
+                </div>
+                <div class="member-details">
+                    <div class="detail-section">
+                        <div class="detail-title">助益</div>
+                        <div class="detail-content">
+                            待人客氣友善、教學穩定、潛在教學接班人(可被引導)
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-title">風險</div>
+                        <div class="detail-content risk-content">
+                            科內人手缺稀、不確定能否引導成功
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 張圖軒 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <span class="member-type doctor">醫師</span>
+                    <span class="generation-tag young">青世代</span>
+                </div>
+                <div class="member-name">張圖軒</div>
+                <div class="member-info">
+                    <span class="member-department">兒童感染科</span>
+                    <span class="member-position">VS</span>
+                </div>
+                <div class="member-details">
+                    <div class="detail-section">
+                        <div class="detail-title">助益</div>
+                        <div class="detail-content">
+                            教學穩定、有責任感
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-title">風險</div>
+                        <div class="detail-content risk-content">
+                            缺乏主動推動力
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 陳伯榕 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <span class="member-type doctor">醫師</span>
+                    <span class="generation-tag young">青世代</span>
+                </div>
+                <div class="member-name">陳伯榕</div>
+                <div class="member-info">
+                    <span class="member-department">急診醫學部</span>
+                    <span class="member-position">備V</span>
+                </div>
+                <div class="member-details">
+                    <div class="detail-section">
+                        <div class="detail-title">助益</div>
+                        <div class="detail-content">
+                            年輕有為、熟悉急診教學運作及CBME
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-title">風險</div>
+                        <div class="detail-content risk-content">
+                            臨床業務繁忙、身兼多職
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 李季恆 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <span class="member-type doctor">醫師</span>
+                    <span class="generation-tag middle-young">中青</span>
+                </div>
+                <div class="member-name">李季恆</div>
+                <div class="member-info">
+                    <span class="member-department">急診醫學部</span>
+                    <span class="member-position">VS</span>
+                </div>
+                <div class="member-details">
+                    <div class="detail-section">
+                        <div class="detail-title">助益</div>
+                        <div class="detail-content">
+                            年輕、熟悉急診教學運作
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-title">風險</div>
+                        <div class="detail-content risk-content">
+                            需適當誘因強化教學動能
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 王嘉地 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <span class="member-type doctor">醫師</span>
+                    <span class="generation-tag senior">資深</span>
+                </div>
+                <div class="member-name">王嘉地</div>
+                <div class="member-info">
+                    <span class="member-department">急診醫學部</span>
+                    <span class="member-position">VS</span>
+                </div>
+                <div class="member-details">
+                    <div class="detail-section">
+                        <div class="detail-title">助益</div>
+                        <div class="detail-content">
+                            熟悉急診教學運作CBME、CCC急診行之多年
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-title">風險</div>
+                        <div class="detail-content risk-content">
+                            偶有情緒衝突風險
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 何郁玠 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <span class="member-type doctor">醫師</span>
+                    <span class="generation-tag young">青世代</span>
+                </div>
+                <div class="member-name">何郁玠</div>
+                <div class="member-info">
+                    <span class="member-department">急診醫學部</span>
+                    <span class="member-position">VS</span>
+                </div>
+                <div class="member-details">
+                    <div class="detail-section">
+                        <div class="detail-title">助益</div>
+                        <div class="detail-content">
+                            年輕、熟悉急診教學運作
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-title">風險</div>
+                        <div class="detail-content risk-content">
+                            臨床業務繁忙時間配合
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 陳泓誌 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <span class="member-type doctor">醫師</span>
+                    <span class="generation-tag young">青世代</span>
+                </div>
+                <div class="member-name">陳泓誌</div>
+                <div class="member-info">
+                    <span class="member-department">急診醫學部</span>
+                    <span class="member-position">R4</span>
+                </div>
+                <div class="member-details">
+                    <div class="detail-section">
+                        <div class="detail-title">助益</div>
+                        <div class="detail-content">
+                            年輕、熟悉急診教學運作、可以從學員角度出發
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-title">風險</div>
+                        <div class="detail-content risk-content">
+                            臨床業務繁忙時間配合
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 簡嘉威 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <span class="member-type doctor">醫師</span>
+                    <span class="generation-tag young">青世代</span>
+                </div>
+                <div class="member-name">簡嘉威</div>
+                <div class="member-info">
+                    <span class="member-department">老年醫學科</span>
+                    <span class="member-position">VS</span>
+                </div>
+                <div class="member-details">
+                    <div class="detail-section">
+                        <div class="detail-title">助益</div>
+                        <div class="detail-content">
+                            家醫年輕醫師、有熱忱、可以從學員角度出發
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 鄧宜家 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <span class="member-type doctor">醫師</span>
+                    <span class="generation-tag young">青世代</span>
+                </div>
+                <div class="member-name">鄧宜家</div>
+                <div class="member-info">
+                    <span class="member-department">麻醉部</span>
+                    <span class="member-position">VS</span>
+                </div>
+                <div class="member-details">
+                    <div class="detail-section">
+                        <div class="detail-title">助益</div>
+                        <div class="detail-content">
+                            待人客氣友善、教學穩定、潛在教學接班人(可被引導)
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-title">風險</div>
+                        <div class="detail-content risk-content">
+                            不確定能否引導成功
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category-header">職類委員</div>
+        <div class="members-grid">
+            <!-- 黃建中 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <span class="member-type staff">職類</span>
+                    <span class="generation-tag middle">中世代</span>
+                </div>
+                <div class="member-name">黃建中</div>
+                <div class="member-info">
+                    <span class="member-department">A醫放</span>
+                    <span class="member-position">組長</span>
+                </div>
+                <div class="member-details">
+                    <div class="detail-section">
+                        <div class="detail-title">助益</div>
+                        <div class="detail-content">
+                            熟悉教學業務、本院最早推展CBME職類、擔任衛福部臨培計畫委員可知政府最新政策
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-title">風險</div>
+                        <div class="detail-content risk-content">
+                            急診臨床業務繁忙
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PGY學員 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <span class="member-type staff">職類</span>
+                    <span class="generation-tag young">青世代</span>
+                </div>
+                <div class="member-name">PGY學員</div>
+                <div class="member-info">
+                    <span class="member-department">A醫放</span>
+                    <span class="member-position">PGY</span>
+                </div>
+                <div class="member-details">
+                    <div class="detail-section">
+                        <div class="detail-title">助益</div>
+                        <div class="detail-content">
+                            醫放CBME發展成熟、加入學員視角
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-title">風險</div>
+                        <div class="detail-content risk-content">
+                            臨床業務繁忙時間配合、需多理解教學運作
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 黃淑芬 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <span class="member-type staff">職類</span>
+                    <span class="generation-tag middle">中世代</span>
+                </div>
+                <div class="member-name">黃淑芬</div>
+                <div class="member-info">
+                    <span class="member-department">A藥事</span>
+                    <span class="member-position">組長/教學型醫事人員</span>
+                </div>
+                <div class="member-details">
+                    <div class="detail-section">
+                        <div class="detail-title">助益</div>
+                        <div class="detail-content">
+                            熟悉教學業務、就讀成人教育博班中
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 林琪馨 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <span class="member-type staff">職類</span>
+                    <span class="generation-tag middle">中世代</span>
+                </div>
+                <div class="member-name">林琪馨</div>
+                <div class="member-info">
+                    <span class="member-department">B護理</span>
+                    <span class="member-position">督導</span>
+                </div>
+                <div class="member-details">
+                    <div class="detail-section">
+                        <div class="detail-title">助益</div>
+                        <div class="detail-content">
+                            熟悉教學業務
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 劉美媛 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <span class="member-type staff">職類</span>
+                    <span class="generation-tag senior">資深</span>
+                </div>
+                <div class="member-name">劉美媛</div>
+                <div class="member-info">
+                    <span class="member-department">B營養</span>
+                    <span class="member-position">主任</span>
+                </div>
+                <div class="member-details">
+                    <div class="detail-section">
+                        <div class="detail-title">助益</div>
+                        <div class="detail-content">
+                            熟悉教學業務、參與研議營養全聯會EPA教案共識
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 洪素珍 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <span class="member-type staff">職類</span>
+                    <span class="generation-tag senior">資深</span>
+                </div>
+                <div class="member-name">洪素珍</div>
+                <div class="member-info">
+                    <span class="member-department">B聽力</span>
+                    <span class="member-position">小組長</span>
+                </div>
+                <div class="member-details">
+                    <div class="detail-section">
+                        <div class="detail-title">助益</div>
+                        <div class="detail-content">
+                            熟悉教學業務、參與研議聽力學會EPA教案共識
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-title">風險</div>
+                        <div class="detail-content risk-content">
+                            職類規模較小
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 劉天慧 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <span class="member-type staff">職類</span>
+                    <span class="generation-tag middle">中世代</span>
+                </div>
+                <div class="member-name">劉天慧</div>
+                <div class="member-info">
+                    <span class="member-department">C物治</span>
+                    <span class="member-position">組長</span>
+                </div>
+                <div class="member-details">
+                    <div class="detail-section">
+                        <div class="detail-title">助益</div>
+                        <div class="detail-content">
+                            熟悉教學業務、參與研議物治全聯會EPA教案共識
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 張鈴艷 -->
+            <div class="member-card">
+                <div class="member-header">
+                    <span class="member-type staff">職類</span>
+                    <span class="generation-tag middle">中世代</span>
+                </div>
+                <div class="member-name">張鈴艷</div>
+                <div class="member-info">
+                    <span class="member-department">C職治</span>
+                    <span class="member-position">總技師/教學型醫事人員</span>
+                </div>
+                <div class="member-details">
+                    <div class="detail-section">
+                        <div class="detail-title">助益</div>
+                        <div class="detail-content">
+                            熟悉教學業務
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

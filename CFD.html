@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CFD架構與委員建議名單</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft JhengHei', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .date {
+            font-size: 1.2em;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .groups-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .group-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e0e0e0;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .group-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+        }
+
+        .group-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .group-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+            padding: 10px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 10px;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 5px;
+        }
+
+        .tasks {
+            background: #f8f9ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .tasks ol {
+            margin-left: 20px;
+        }
+
+        .tasks li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .evaluation-codes {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .eval-code {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        .core-position {
+            background: #e8f5e8;
+            padding: 10px;
+            border-radius: 8px;
+            color: #2d5a2d;
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .members {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .member {
+            color: white;
+            padding: 8px 15px;
+            border-radius: 25px;
+            font-weight: 500;
+            font-size: 0.95em;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .member.senior {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .member.middle {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .member.young {
+            background: linear-gradient(135deg, #2196F3 0%, #03A9F4 100%);
+            color: white;
+        }
+
+        .risks-benefits {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .risks, .benefits {
+            padding: 15px;
+            border-radius: 8px;
+            line-height: 1.6;
+        }
+
+        .risks {
+            background: #ffe6e6;
+            border-left: 4px solid #ff6b6b;
+        }
+
+        .benefits {
+            background: #e6ffe6;
+            border-left: 4px solid #51cf66;
+        }
+
+        .risks h4, .benefits h4 {
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: white;
+            padding: 10px 15px;
+            border-radius: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .legend-color.senior { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .legend-color.middle { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .legend-color.young { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+
+        @media (max-width: 768px) {
+            .groups-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .risks-benefits {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>師資培育</h1>
+            <div class="date">114.06.18</div>
+        </div>
+
+        <div class="groups-container">
+            <!-- 教師能力與核心素養發展組 -->
+            <div class="group-card">
+                <div class="group-title">教師能力與核心素養發展組</div>
+                
+                <div class="section">
+                    <div class="section-title">工作任務分配</div>
+                    <div class="tasks">
+                        <ol>
+                            <li>建構初階／進階教師培訓制度（含CBME、PGY等）</li>
+                            <li>設計全人照護、人文素養、倫理、生死學、溝通等共通課程</li>
+                            <li>推動臨床教學技巧與跨域合作能力養成</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">對應評鑑條文</div>
+                    <div class="evaluation-codes">
+                        <span class="eval-code">2.1.1</span>
+                        <span class="eval-code">2.1.3</span>
+                        <span class="eval-code">2.1.4</span>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">核心定位</div>
+                    <div class="core-position">臨床教學與共通核心能力整合發展中心</div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">推薦名單</div>
+                    <div class="members">
+                        <span class="member middle">郭妍伶主任(中)</span>
+                        <span class="member young">陳伯榕醫師(青)</span>
+                        <span class="member young">嚴世島醫師(青)</span>
+                        <span class="member middle">黃淑芬組長(中)</span>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="risks-benefits">
+                        <div class="benefits">
+                            <h4>助益</h4>
+                            <p>1. 能穩定傳承師資訓練系統並負責實務執行<br>
+                            2. 熟悉教學現場與學員需求，對全人/溝通課程投入高</p>
+                        </div>
+                        <div class="risks">
+                            <h4>風險</h4>
+                            <p>教學者是否具備課程設計與推動經驗</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 教學評量與回饋組 -->
+            <div class="group-card">
+                <div class="group-title">教學評量與回饋組</div>
+                
+                <div class="section">
+                    <div class="section-title">工作任務分配</div>
+                    <div class="tasks">
+                        <ol>
+                            <li>建立同儕審查制度與教師教學觀察</li>
+                            <li>建構回饋與教學成效追蹤流程</li>
+                            <li>回饋數據供教師能力發展組參考改善</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">對應評鑑條文</div>
+                    <div class="evaluation-codes">
+                        <span class="eval-code">2.1.1</span>
+                        <span class="eval-code">2.1.3</span>
+                        <span class="eval-code">2.1.4</span>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">核心定位</div>
+                    <div class="core-position">教學品質監測與改善的關鍵節點</div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">推薦名單</div>
+                    <div class="members">
+                        <span class="member middle">陳志偉主任(中)</span>
+                        <span class="member young">黃筠婷醫師(青)</span>
+                        <span class="member senior">徐富美督導(資深)</span>
+                        <span class="member middle">黃建中組長(中)</span>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="risks-benefits">
+                        <div class="benefits">
+                            <h4>助益</h4>
+                            <p>1. 參與使制度設計具備歷史脈絡與可信度<br>
+                            2. 具臨床帶教與評量經驗，能有效推動教師觀察制度</p>
+                        </div>
+                        <div class="risks">
+                            <h4>風險</h4>
+                            <p>制度落實上可能過於保守，須避免形式化或只做資料填寫</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 數位與教學創新組 -->
+            <div class="group-card">
+                <div class="group-title">數位與教學創新組</div>
+                
+                <div class="section">
+                    <div class="section-title">工作任務分配</div>
+                    <div class="tasks">
+                        <ol>
+                            <li>建置數位教學平台</li>
+                            <li>推動AI教案、情境模擬、數位工具應用</li>
+                            <li>支援線上教學與資料視覺化</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">對應評鑑條文</div>
+                    <div class="evaluation-codes">
+                        <span class="eval-code">2.1.3</span>
+                        <span class="eval-code">2.1.4</span>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">核心定位</div>
+                    <div class="core-position">推動數位轉型與創新教學的執行單位</div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">推薦名單</div>
+                    <div class="members">
+                        <span class="member middle">陳鋭溢醫師(中)</span>
+                        <span class="member young">黃博裕醫師(R4)(青)</span>
+                        <span class="member middle">邱旅揚教學型醫事人員(中)</span>
+                        <span class="member young">傅柏憲藥師(青)</span>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="risks-benefits">
+                        <div class="benefits">
+                            <h4>助益</h4>
+                            <p>1. 熟悉新興工具與平台應用，極具創新動能<br>
+                            2. 推動線上學習與跨平台應用具天然優勢</p>
+                        </div>
+                        <div class="risks">
+                            <h4>風險</h4>
+                            <p>1. 可能在制度整合、資源協調或跨部門溝通上出現斷層<br>
+                            2. 須由教學行政單位提供與跨組連結支援</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 教師認證與獎勵組 -->
+            <div class="group-card">
+                <div class="group-title">教師認證與獎勵組</div>
+                
+                <div class="section">
+                    <div class="section-title">工作任務分配</div>
+                    <div class="tasks">
+                        <ol>
+                            <li>設計教師分級認證與升等辦法</li>
+                            <li>推動優良教師選拔與教學獎勵制度</li>
+                            <li>彙整教師貢獻與獎勵發放紀錄</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">對應評鑑條文</div>
+                    <div class="evaluation-codes">
+                        <span class="eval-code">2.1.2</span>
+                        <span class="eval-code">2.1.1</span>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">核心定位</div>
+                    <div class="core-position">教師動機與制度激勵的設計者</div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">推薦名單</div>
+                    <div class="members">
+                        <span class="member senior">褚錦承副部長(資深)</span>
+                        <span class="member middle">蔡長志主任(中)</span>
+                        <span class="member middle">張鈴艷總技師(中)</span>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="risks-benefits">
+                        <div class="benefits">
+                            <h4>助益</h4>
+                            <p>1. 具制度記憶與核決經驗，利於獎勵公正性與認證制度設計<br>
+                            2. 可承擔執行與協調角色</p>
+                        </div>
+                        <div class="risks">
+                            <h4>風險</h4>
+                            <p>1. 難以納入年輕教師或新進教學者之期待與激勵需求<br>
+                            2. 獎勵制度可能未與實際教學現場接軌，形成認知落差</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 學術教育研究組 -->
+            <div class="group-card">
+                <div class="group-title">學術教育研究組</div>
+                
+                <div class="section">
+                    <div class="section-title">工作任務分配</div>
+                    <div class="tasks">
+                        <ol>
+                            <li>協助教師規劃與執行教學研究計畫</li>
+                            <li>推動跨職類教育研究與發表</li>
+                            <li>建立教學成果資料庫與標竿分享</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">對應評鑑條文</div>
+                    <div class="evaluation-codes">
+                        <span class="eval-code">2.1.1</span>
+                        <span class="eval-code">2.1.4</span>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">核心定位</div>
+                    <div class="core-position">教學成果可視化與研究能量的推進平台</div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">推薦名單</div>
+                    <div class="members">
+                        <span class="member middle">楊清傑醫師(中)</span>
+                        <span class="member young">莊閔翔醫師(研究員)(青)</span>
+                        <span class="member young">吳政彥營養師(青)</span>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="risks-benefits">
+                        <div class="benefits">
+                            <h4>助益</h4>
+                            <p>1. 對投稿、資料彙整與平台建置具高行動力<br>
+                            2. 有助於研究倫理與研究架構把關</p>
+                        </div>
+                        <div class="risks">
+                            <h4>風險</h4>
+                            <p>---</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color senior"></div>
+                <span>資深委員</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color middle"></div>
+                <span>中階委員</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color young"></div>
+                <span>青年委員</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
