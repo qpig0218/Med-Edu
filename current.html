@@ -359,12 +359,22 @@
             opacity: 0.9;
         }
 
-
+        .back-button {
+            display: inline-block;
+            margin-bottom: 30px;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
             color: white;
             text-decoration: none;
             border-radius: 25px;
             font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
 
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
         }
 
         @media (max-width: 768px) {
@@ -385,6 +395,8 @@
 </head>
 <body>
     <div class="container">
+        <a href="index.html" class="back-button">← 返回討論會議</a>
+        
         <div class="header">
             <h1>醫學教育委員會</h1>
             <p>成員名單(任期至114.07.31)</p>
