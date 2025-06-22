@@ -256,6 +256,65 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
+        .links-section {
+            margin-top: 40px;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid #0ea5e9;
+        }
+
+        .links-title {
+            font-size: 1.5em;
+            font-weight: 600;
+            color: #0c4a6e;
+            margin-bottom: 20px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .links-title::before {
+            content: '🔗';
+            font-size: 1.2em;
+        }
+
+        .links-description {
+            text-align: center;
+            color: #475569;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .action-button {
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .action-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(14, 165, 233, 0.4);
+            background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 100%);
+        }
+
         @media (max-width: 768px) {
             .members-grid {
                 grid-template-columns: 1fr;
@@ -280,6 +339,14 @@
 
             .generation-tag {
                 margin-left: 0;
+            }
+
+            .links-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .links-section {
+                padding: 20px;
             }
         }
     </style>
@@ -1073,6 +1140,20 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- 相關委員會推薦詳情連結 -->
+        <div class="links-section">
+            <h3 class="links-title">其他委員會推薦詳情</h3>
+            <div class="links-description">
+                瀏覽其他委員會的專業推薦詳情，了解不同領域的委員組成背景和專業能力。
+            </div>
+            <div class="links-grid">
+                <a href="CFD.html" class="action-button">查看師資培育委員推薦詳情</a>
+                <a href="Medhum.html" class="action-button">查看醫學人文委員推薦詳情</a>
+                <a href="digitalcapability.html" class="action-button">查看數位賦能委員推薦詳情</a>
+                <a href="index.html" class="action-button">返回討論會議首頁</a>
             </div>
         </div>
     </div>
